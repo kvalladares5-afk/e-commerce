@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Florería Jardín Secreto</title>
+    
+    <!-- 1. Bootstrap CSS (El maquillaje) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- 2. Nuestros Estilos Personalizados -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-light">
+
+    <!-- Navbar (Barra de navegación estilo Bootstrap) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand text-success fw-bold" href="#" onclick="showPage('page-home')">
+                🌱 Jardín Secreto
+            </a>
+            
+            <div class="d-flex align-items-center">
+                <!-- Botón del Carrito (Usa data-bs-toggle para abrir el modal automáticamente) -->
+                <button type="button" class="btn btn-outline-success position-relative" data-bs-toggle="modal" data-bs-target="#cartModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+                    </svg>
+                    <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        0
+                    </span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main id="app-container" class="container py-5">
+
+        <!-- Página de Inicio -->
+        <section id="page-home">
+            <h1 class="display-6 fw-bold mb-4 text-dark">Nuestros Productos</h1>
+            <!-- La grilla de Bootstrap se define aquí -->
+            <div id="product-grid" class="row g-4">
+                <!-- JS llenará esto usando la lógica de products.js -->
+            </div>
+        </section>
+
+        <!-- Página de Detalle -->
+        <section id="page-detail" class="d-none">
+            <button onclick="showPage('page-home')" class="btn btn-outline-secondary mb-4">
+                &larr; Volver a productos
+            </button>
+            
+            <div class="card shadow-lg border-0">
+                <div class="row g-0">
+                    <div class="col-md-6">
+                        <img id="detail-img" class="img-fluid rounded-start w-100 h-100 object-fit-cover" src="" alt="Producto" style="min-height: 400px;">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body p-5">
+                            <h2 id="detail-name" class="card-title display-6 fw-bold mb-3"></h2>
+                            <h3 id="detail-price" class="text-success fw-bold mb-4"></h3>
+                            <p id="detail-desc" class="card-text lead text-muted mb-4"></p>
+                            
+                            <hr class="my-4">
+                            
+                            <div class="row align-items-center g-3">
+                                <div class="col-auto">
+                                    <label for="detail-quantity" class="col-form-label fw-bold">Cantidad:</label>
+                                </div>
+                                <div class="col-auto">
+                                    <input type="number" id="detail-quantity" class="form-control" min="1" max="10" value="1" style="width: 80px;">
+                                </div>
+                                <div class="col">
+                                    <button id="add-to-cart-btn" class="btn btn-success w-100 py-2">
+                                        Agregar al Carrito
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal del Carrito (Estructura nativa de Bootstrap) -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title fw-bold" id="cartModalLabel">Carrito de Compras</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cart-items-list" class="list-group list-group-flush">
+                        <!-- JS llenará esto -->
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between bg-light">
+                    <div>
+                        <span class="fs-5">Total:</span>
+                        <span id="cart-total" class="fs-4 fw-bold text-success ms-2">$0</span>
+                    </div>
+                    <button type="button" class="btn btn-success px-4">Finalizar Compra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification (Alerta flotante) -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+        <div id="liveToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toast-message">
+                    Producto agregado al carrito.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-white border-top py-4 mt-auto">
+        <div class="container text-center text-muted">
+            <small>&copy; 2025 Jardín Secreto. Todos los derechos reservados.</small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper (Necesario para el Modal) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Nuestros Scripts -->
+    <script src="JS/main.js"></script>
+    <script src="JS/cart.js"></script>
+    <script src="JS/products.js"></script>
+
+</body>
+</html>
