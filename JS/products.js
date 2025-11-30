@@ -3,7 +3,7 @@
 */
 
 const products = [
-    { id: 'prod1', name: 'Bulbos Lilium', price: 12990, desc: 'Pack de 5 bulbos de Lilium asiático, colores mixtos.', img: 'img/Bulbos Lilium.jpg' },
+    { id: 'prod1', name: 'Bulbos Lilium', price: 12990, desc: 'Pack de 5 bulbos de Lilium asiático, colores mixtos.', img: 'img/bulbos lilium.1.jpeg' },
     { id: 'prod2', name: 'Bulbos Tulipán', price: 9990, desc: 'Pack de 10 bulbos de Tulipán holandés.', img: 'img/Bulbos Tulipán.jpg' },
     { id: 'prod3', name: 'Rosas de Corte', price: 15990, desc: 'Una docena de rosas rojas frescas, calidad de exportación.', img: 'img/Rosas de Corte.jpg' },
     { id: 'prod4', name: 'Lilium de Corte', price: 4990, desc: 'Vara de Lilium blanco con múltiples flores.', img: 'img/Lilium de Corte.jpg' },
