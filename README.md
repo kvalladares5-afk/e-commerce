@@ -4,7 +4,7 @@ Este proyecto consiste en el desarrollo del Módulo 3 (Base de Datos Relacional)
 
 ## Autora: Karina Valladares 
 
-**Repositorio: [Coloca aquí el link a tu repositorio de GitHub]**
+**Repositorio: https://github.com/kvalladares5-afk/e-commerce**
 
 ## 📋 Descripción del Proyecto
 
@@ -33,7 +33,7 @@ El sistema gestiona el catálogo de productos, usuarios y pedidos de la florerí
 
 ### Sigue estos pasos para desplegar el proyecto en tu entorno local:
 
-Clonar el repositorio (o descargar el .zip) en tu carpeta de servidor local (ej: C:/xampp/htdocs/jardin-secreto).
+Clonar el repositorio (o descargar el .zip) en tu carpeta de servidor local (ej: C:/xampp/htdocs/VAM).
 
 ### **Base de Datos:**
 
