@@ -9,7 +9,7 @@ INSERT INTO categorias (nombre, descripcion) VALUES
 -- 2. Insertar Productos
 -- Nota: Usamos los nombres de columnas en español
 INSERT INTO productos (nombre, precio, descripcion, imagen_url, categoria_id, stock) VALUES
-('Bulbos Lilium', 12990, 'Pack de 5 bulbos de Lilium asiático, colores mixtos.', 'img/Bulbos Lilium.jpg', 1, 50),
+('Bulbos Lilium', 12990, 'Pack de 5 bulbos de Lilium asiático, colores mixtos.', 'img/Bulbos Lilium.jpeg', 1, 50),
 ('Bulbos Tulipán', 9990, 'Pack de 10 bulbos de Tulipán holandés.', 'img/Bulbos Tulipán.jpg', 1, 50),
 ('Rosas de Corte', 15990, 'Una docena de rosas rojas frescas, calidad de exportación.', 'img/Rosas de Corte.jpg', 2, 30),
 ('Lilium de Corte', 4990, 'Vara de Lilium blanco con múltiples flores.', 'img/Lilium de Corte.jpg', 2, 40),

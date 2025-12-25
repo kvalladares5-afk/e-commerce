@@ -1,7 +1,4 @@
-/* cart.js 
-   Usa Flex utilities de Bootstrap (d-flex, justify-content-between) 
-   para el layout de cada item en el modal.
-*/
+/* JS/cart.js - Actualizado para Schema en Español */
 
 let cart = [];
 
@@ -21,24 +18,29 @@ function updateCartDisplay() {
             </div>`;
     } else {
         cart.forEach(item => {
-            total += item.price * item.quantity;
-            count += item.quantity;
+            // CUIDADO: La BD devuelve 'precio', no 'price'
+            // Aseguramos conversión a float por si acaso
+            const precio = parseFloat(item.precio);
+            const cantidad = parseInt(item.quantity); // 'quantity' lo agregamos nosotros en JS, sigue en inglés o español según prefieras. Aquí mantuve quantity.
+
+            total += precio * cantidad;
+            count += cantidad;
             
             const itemEl = document.createElement('div');
-            // Usamos 'list-group-item' de Bootstrap
             itemEl.className = 'list-group-item py-3';
             
+            // Usamos item.imagen_url, item.nombre, item.precio
             itemEl.innerHTML = `
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center">
-                        <img src="${item.img}" alt="${item.name}" class="rounded shadow-sm" style="width: 60px; height: 60px; object-fit: cover;">
+                        <img src="${item.imagen_url}" alt="${item.nombre}" class="rounded shadow-sm" style="width: 60px; height: 60px; object-fit: cover;">
                         <div class="ms-3">
-                            <h6 class="mb-0 fw-bold">${item.name}</h6>
-                            <small class="text-muted">Cant: ${item.quantity} x ${formatPrice(item.price)}</small>
+                            <h6 class="mb-0 fw-bold">${item.nombre}</h6>
+                            <small class="text-muted">Cant: ${cantidad} x ${formatPrice(precio)}</small>
                         </div>
                     </div>
                     <div class="text-end">
-                        <div class="fw-bold text-dark mb-1">${formatPrice(item.price * item.quantity)}</div>
+                        <div class="fw-bold text-dark mb-1">${formatPrice(precio * cantidad)}</div>
                         <button onclick="removeFromCart('${item.id}')" class="btn btn-outline-danger btn-sm p-1 px-2">
                             <small>Eliminar</small>
                         </button>
@@ -56,13 +58,17 @@ function updateCartDisplay() {
 function addToCart(productId, quantity) {
     if (!productId || isNaN(quantity) || quantity < 1) return;
 
-    const existingItemIndex = cart.findIndex(item => item.id === productId);
+    // Buscamos si ya existe en el carrito usando ID flexible (==)
+    const existingItemIndex = cart.findIndex(item => item.id == productId);
     
     if (existingItemIndex > -1) {
         cart[existingItemIndex].quantity += quantity;
     } else {
-        const product = products.find(p => p.id === productId);
+        // Buscamos en la lista maestra de productos descargados
+        const product = products.find(p => p.id == productId);
         if(product) {
+            // Creamos una copia del producto y le agregamos la propiedad 'quantity'
+            // El resto de propiedades (nombre, precio, imagen_url) se copian igual
             cart.push({ ...product, quantity: quantity });
         }
     }
@@ -71,8 +77,9 @@ function addToCart(productId, quantity) {
 }
 
 function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
+    cart = cart.filter(item => item.id != productId); // Comparación flexible por si ID es string/int
     updateCartDisplay();
-    // Usamos la nueva función de Toast adaptada para Bootstrap
-    showToast('Producto eliminado del carrito.');
+    if(typeof showToast === 'function') {
+        showToast('Producto eliminado del carrito.');
+    }
 }

@@ -1,35 +1,30 @@
-/* main.js
-   Más limpio porque Bootstrap maneja la apertura del modal.
-   Usamos Bootstrap Toast para las notificaciones.
-*/
+/* JS/main.js - Actualizado para Schema en Español */
 
 let currentProductId = null;
 
-// Utilidad de formato de precio
+// Utilidad de formato de precio (CLP)
 const formatPrice = (price) => {
-    return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(price);
+    // Aseguramos que el precio sea un número (la BD puede devolver string)
+    const val = parseFloat(price);
+    return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(val);
 };
 
 // Utilidad de notificación (Bootstrap Toast)
 const showToast = (message) => {
-    // 1. Actualizar el texto
-    document.getElementById('toast-message').textContent = message;
-    
-    // 2. Obtener el elemento y crear la instancia de Bootstrap
+    const toastMsg = document.getElementById('toast-message');
     const toastEl = document.getElementById('liveToast');
-    const toast = new bootstrap.Toast(toastEl); // bootstrap viene del script CDN
-    
-    // 3. Mostrar
-    toast.show();
+    if(toastMsg && toastEl) {
+        toastMsg.textContent = message;
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+    }
 };
 
 // --- Navegación SPA ---
 const showPage = (pageId) => {
-    // Ocultar usando la clase de utilidad de Bootstrap 'd-none' (display: none)
     document.getElementById('page-home').classList.add('d-none');
     document.getElementById('page-detail').classList.add('d-none');
     
-    // Mostrar quitando 'd-none'
     const page = document.getElementById(pageId);
     if (page) {
         page.classList.remove('d-none');
@@ -39,16 +34,21 @@ const showPage = (pageId) => {
 
 // Mostrar detalle de producto
 const showProductDetail = (productId) => {
+    // Nota: Como los IDs de base de datos son INT, comparamos de forma flexible (==) 
+    // o convertimos ambos a string/numero.
     currentProductId = productId;
-    const product = products.find(p => p.id === productId);
+    
+    // 'products' es la variable global que llenamos en products.js con fetch
+    const product = products.find(p => p.id == productId);
+    
     if (!product) return;
 
-    // Rellenamos el HTML de la página de detalle
-    document.getElementById('detail-img').src = product.img;
-    document.getElementById('detail-img').alt = product.name;
-    document.getElementById('detail-name').textContent = product.name;
-    document.getElementById('detail-price').textContent = formatPrice(product.price);
-    document.getElementById('detail-desc').textContent = product.desc;
+    // Rellenamos el HTML con las propiedades EN ESPAÑOL de la BD
+    document.getElementById('detail-img').src = product.imagen_url;
+    document.getElementById('detail-img').alt = product.nombre;
+    document.getElementById('detail-name').textContent = product.nombre;
+    document.getElementById('detail-price').textContent = formatPrice(product.precio);
+    document.getElementById('detail-desc').textContent = product.descripcion;
     document.getElementById('detail-quantity').value = 1;
 
     showPage('page-detail');
@@ -64,11 +64,13 @@ const handleAddToCartClick = () => {
 
 // --- Inicialización ---
 document.addEventListener('DOMContentLoaded', () => {
-    populateProductGrid();
+    // Importante: Llamamos a fetchProducts() en lugar de populateProductGrid()
+    // para que primero descargue los datos de la BD
+    if (typeof fetchProducts === 'function') {
+        fetchProducts();
+    }
 
     // Eventos
-    document.getElementById('add-to-cart-btn').onclick = handleAddToCartClick;
-    
-    // NOTA: Ya no necesitamos asignar eventos para abrir/cerrar el modal
-    // Bootstrap lo hace con los atributos data-bs-toggle en el HTML.
+    const addBtn = document.getElementById('add-to-cart-btn');
+    if(addBtn) addBtn.onclick = handleAddToCartClick;
 });
